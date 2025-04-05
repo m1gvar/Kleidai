@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KlaudIA Fashion</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .phone-frame {
+            width: 360px;
+            height: 700px;
+            background-color: #000000;
+            border-radius: 30px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255,255,255,0.1);
+            border: 2px solid #333;
+        }
+        .phone-notch {
+            width: 140px;
+            height: 20px;
+            background-color: #333;
+            border-radius: 0 0 15px 15px;
+            margin: -10px auto 15px;
+        }
+        .chat {
+            height: 560px;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+            padding: 15px 0;
+        }
+        input[type="text"] {
+            padding: 12px;
+            width: 100%;
+            border: 1px solid #333;
+            background-color: #000000;
+            color: white;
+            border-radius: 25px;
+            font-size: 14px;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background-color: #444;
+        }
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .message.user {
+            align-items: flex-end;
+        }
+        .message p {
+            padding: 12px 18px;
+            border-radius: 20px;
+            max-width: 80%;
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+        .message.user p {
+            background-color: #333;
+            color: white;
+        }
+        .message.klaudia p {
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .highlight {
+            color: #FFB6C1;
+            font-weight: bold;
+        }
+        .fashion-details {
+            margin-top: 10px;
+            padding: 12px;
+            background: #0d0d0d;
+            border-radius: 12px;
+            border-left: 3px solid #FFB6C1;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="chat" id="chat">
+            <div class="message klaudia">
+                <p><strong>KlaudIA:</strong> ¡Hola! Soy tu asistente de estilo personal. ¿En qué puedo ayudarte hoy? 👗✨</p>
+            </div>
+        </div>
+        <div class="input-container">
+            <input type="text" id="question" placeholder="Escribe tu pregunta..." list="preguntas-sugeridas">
+            <datalist id="preguntas-sugeridas"></datalist>
+            <button onclick="responder()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        const preguntasRespuestas = [
+            {
+                pregunta: "¿Qué combina con camiseta blanca?",
+                respuesta: `Los <span class="highlight">pantalones cargo negros</span> son perfectos. Combínalos con <span class="highlight">zapatillas blancas</span> y un <span class="highlight">blazer oversize</span> para un look urbano.
+                <div class="fashion-details">
+                    💡 Agrega un collar grueso de plata para un toque sofisticado.
+                <img src="8960871f-d7ae-4143-b732-5ac6a0e89641.png" height=300 
+                    </div>`
+                
+               
+            },
+            {
+                pregunta: "¿Qué usar para una cena formal?",
+                respuesta: `Prueba un <span class="highlight">vestido midi satinado</span> en tono nude con <span class="highlight">tacones delgados</span>. Añade un <span class="highlight">clutch dorado</span> para elevar el look.
+                <div class="fashion-details">
+                    
+                ✨ Alternativa: Traje de pantalón ancho con top de seda
+                <img src="82a2e855-5767-44ec-a677-18bf8b225a3f.png" height=300 
+                </div>`
+            },
+            {
+                pregunta: "¿Zapatos para traje negro?",
+                respuesta: `Los <span class="highlight">oxfords de cuero brillante</span> son clásicos. Para algo moderno, prueba <span class="highlight">botines ajustados</span> con detalle metálico.
+                <div class="fashion-details">
+                    🧦 Usa calcetines invisibles o de contraste llamativo
+                <img src="1098473-1.webp" height=300 
+                    </div>`
+            },
+            {
+                pregunta: "¿Abrigo para invierno?",
+                respuesta: `Un <span class="highlight">coat largo en lana</span> es ideal. Elige tonos neutros como <span class="highlight">gris marengo</span> o <span class="highlight">beige</span>.
+                <div class="fashion-details">
+                    🧣 Combina con bufanda de cashmere y guantes de piel
+                 <img src="Diseño sin título.png" height=300 
+                    </div>`
+            }
+        ];
+
+        const datalist = document.getElementById('preguntas-sugeridas');
+        preguntasRespuestas.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.pregunta;
+            datalist.appendChild(option);
+        });
+
+        function responder() {
+            const question = document.getElementById('question').value;
+            const chatDiv = document.getElementById('chat');
+            let respuestaEncontrada = false;
+
+            chatDiv.innerHTML += `
+                <div class="message user">
+                    <p><strong>Tú:</strong> ${question}</p>
+                </div>
+            `;
+
+            preguntasRespuestas.forEach(item => {
+                if (question.toLowerCase().includes(item.pregunta.toLowerCase())) {
+                    chatDiv.innerHTML += `
+                        <div class="message klaudia">
+                            <p><strong>KlaudIA:</strong> ${item.respuesta}</p>
+                        </div>
+                    `;
+                    respuestaEncontrada = true;
+                }
+            });
+
+            if (!respuestaEncontrada) {
+                chatDiv.innerHTML += `
+                    <div class="message klaudia">
+                        <p><strong>KlaudIA:</strong> ¡Vaya! Necesito más detalles. ¿Podrías reformular tu pregunta? 😊</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('question').value = '';
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>
